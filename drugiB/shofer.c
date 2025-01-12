@@ -54,7 +54,7 @@ static struct shofer_timer {
 static struct buffer *buffer_create(size_t, int *);
 static void buffer_delete(struct buffer *);
 static struct shofer_dev *shofer_create(dev_t, struct file_operations *,
-	struct buffer *, struct buffer *, int *);
+struct buffer *, struct buffer *, int *); //a device managed by the driver
 static void shofer_delete(struct shofer_dev *);
 static void cleanup(void);
 static void dump_buffer(char *prefix, struct buffer *b);
@@ -254,7 +254,13 @@ static int shofer_open_read(struct inode *inode, struct file *filp)
 /* open for input_dev */
 static int shofer_open_write(struct inode *inode, struct file *filp)
 {
-	/* todo (similar to shofer_open_read) */
+	struct shofer_dev *shofer;
+
+	shofer = container_of(inode->i_cdev, struct shofer_dev, cdev);
+	filp->private_data = shofer;
+
+	if ( (filp->f_flags & O_ACCMODE) != O_WRONLY)
+		return -EPERM;
 
 	return 0;
 }
@@ -263,7 +269,7 @@ static int shofer_open_write(struct inode *inode, struct file *filp)
 static ssize_t shofer_read(struct file *filp, char __user *ubuf, size_t count,
 	loff_t *f_pos)
 {
-	ssize_t retval = 0;
+	ssize_t retval = 0; // how many bytes were successfully read
 	struct shofer_dev *shofer = filp->private_data;
 	struct buffer *out_buff = shofer->out_buff;
 	struct kfifo *fifo = &out_buff->fifo;
