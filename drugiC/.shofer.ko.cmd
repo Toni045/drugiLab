@@ -1,1 +1,0 @@
-cmd_/home/ubuntu/Documents/FER/NOS/drugiLab/drugiC/shofer.ko := ld -r -EL  -maarch64elf -z noexecstack --build-id=sha1  -T scripts/module.lds -o /home/ubuntu/Documents/FER/NOS/drugiLab/drugiC/shofer.ko /home/ubuntu/Documents/FER/NOS/drugiLab/drugiC/shofer.o /home/ubuntu/Documents/FER/NOS/drugiLab/drugiC/shofer.mod.o;  true
