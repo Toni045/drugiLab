@@ -1,0 +1,1 @@
+cmd_/home/ubuntu/Documents/FER/NOS/drugiLab/drugiC/modules.order := {   echo /home/ubuntu/Documents/FER/NOS/drugiLab/drugiC/shofer.ko; :; } | awk '!x[$$0]++' - > /home/ubuntu/Documents/FER/NOS/drugiLab/drugiC/modules.order

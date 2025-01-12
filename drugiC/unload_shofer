@@ -1,0 +1,24 @@
+#!/bin/bash
+
+MODULE_NAME="shofer"
+DEV_PATH="/dev/$MODULE_NAME"
+
+echo "Removing module $MODULE_NAME..."
+
+# Remove module
+sudo rmmod $MODULE_NAME
+if [ $? -eq 0 ]; then
+    echo "Module $MODULE_NAME removed successfully."
+else
+    echo "Failed to remove module $MODULE_NAME."
+    exit 1
+fi
+
+# Delete device file
+if [ -e "$DEV_PATH" ]; then
+    echo "Removing device file $DEV_PATH..."
+    sudo rm -f $DEV_PATH
+    echo "Device file $DEV_PATH removed."
+else
+    echo "Device file $DEV_PATH does not exist."
+fi

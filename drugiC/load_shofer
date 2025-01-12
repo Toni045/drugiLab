@@ -1,0 +1,30 @@
+#!/bin/sh
+module="shofer"
+device="shofer"
+mode="666"
+
+# Provjera postoji li modulni fajl
+if [ ! -f "./$module.ko" ]; then
+    echo "Greška: Modul $module.ko ne postoji u trenutnom direktoriju!"
+    exit 1
+fi
+
+# Učitaj modul s proslijeđenim parametrima
+echo "Učitavam modul $module s parametrima: $*"
+/sbin/insmod ./$module.ko $* || exit 1
+
+# Dobijanje major broja za modul
+major=$(awk "\$2==\"$module\" {print \$1}" /proc/devices)
+if [ -z "$major" ]; then
+    echo "Greška: Nije moguće dobiti major broj za modul $module!"
+    /sbin/rmmod $module
+    exit 1
+fi
+
+# Kreiranje uređaja
+rm -f /dev/${device}
+mknod /dev/${device} c $major 0
+chmod $mode /dev/${device}
+echo "Uređaj /dev/$device stvoren s major brojem $major."
+
+exit 0

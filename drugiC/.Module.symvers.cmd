@@ -1,0 +1,1 @@
+cmd_/home/ubuntu/Documents/FER/NOS/drugiLab/drugiC/Module.symvers := sed 's/\.ko$$/\.o/' /home/ubuntu/Documents/FER/NOS/drugiLab/drugiC/modules.order | scripts/mod/modpost -m -a  -o /home/ubuntu/Documents/FER/NOS/drugiLab/drugiC/Module.symvers -e -i Module.symvers   -T -
